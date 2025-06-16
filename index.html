@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Kevin Fajar Pratama - Praktikum Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    :root {
+      --color-bg: #0e1525;
+      --color-bg-blur: rgba(14,21,37,0.6);
+      --color-primary: #4ade80;
+      --color-primary-dark: #16a34a;
+      --color-secondary: #22d3ee;
+      --color-text: #e0e7ff;
+      --color-text-muted: #94a3b8;
+      --color-error: #ef4444;
+      --color-success: #22c55e;
+      --color-glass: rgba(255 255 255 / 0.12);
+      --shadow-glass: 0 8px 32px 0 rgba(66, 133, 244, 0.35);
+      --font-family: 'Inter', sans-serif;
+      --header-height: 64px;
+      --sidebar-width: 280px;
+      --transition-fast: 0.25s ease-out;
+      --transition-base: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --border-radius: 16px;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      font-family: var(--font-family);
+      background: var(--color-bg);
+      color: var(--color-text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    a {
+      color: var(--color-secondary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+    a:hover, a:focus {
+      color: var(--color-primary);
+      outline-offset: 2px;
+    }
+    button {
+      font-family: var(--font-family);
+      cursor: pointer;
+      border: none;
+      outline: none;
+      background: var(--color-primary);
+      color: var(--color-bg);
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-glass);
+      transition: background-color var(--transition-base), transform 0.3s ease;
+    }
+    button:hover,
+    button:focus {
+      background-color: var(--color-primary-dark);
+      transform: scale(1.05);
+    }
+    button:disabled {
+      background-color: #2e3a53;
+      cursor: not-allowed;
+      transform: none;
+    }
+    input, textarea {
+      font-family: var(--font-family);
+      font-size: 1rem;
+      padding: 10px 14px;
+      border-radius: var(--border-radius);
+      border: 1.5px solid transparent;
+      background: var(--color-bg-blur);
+      color: var(--color-text);
+      transition: border-color var(--transition-fast), background-color var(--transition-fast);
+      width: 100%;
+      resize: vertical;
+    }
+    input:focus, textarea:focus {
+      border-color: var(--color-secondary);
+      background: var(--color-glass);
+      outline-offset: 2px;
+      outline: 2px solid var(--color-secondary);
+    }
+    input[aria-invalid="true"], textarea[aria-invalid="true"] {
+      border-color: var(--color-error);
+      background: rgba(239, 68, 68, 0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    section {
+      margin-bottom: 48px;
+    }
+    h1, h2, h3, h4 {
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    h2 {
+      font-size: 2rem;
+      color: var(--color-primary);
+      margin-bottom: 24px;
+    }
+    p, li {
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--color-text-muted);
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .material-icons {
+      vertical-align: middle;
+      cursor: pointer;
+      transition: color var(--transition-fast);
+      user-select: none;
+    }
+    .material-icons:hover, .material-icons:focus {
+      color: var(--color-primary);
+      outline: none;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-primary);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--color-bg-blur);
+      border-radius: 10px;
+    }
+    #app {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      max-width: 100vw;
+      overflow-x: hidden;
+      background: var(--color-bg);
+    }
+    header {
+      height: var(--header-height);
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(14px);
+      background: var(--color-bg-blur);
+      border-bottom: 1px solid rgba(66 133 244 / 0.3);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      z-index: 1001;
+      box-shadow: var(--shadow-glass);
+      gap: 1.6rem;
+      user-select: none;
+    }
+    header .logo {
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--color-primary);
+      user-select: text;
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      flex-shrink: 0;
+    }
+    header nav {
+      display: flex;
+      gap: 24px;
+      margin-left: auto;
+    }
+    header nav a {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--color-text-muted);
+      position: relative;
+      padding: 8px 12px;
+      border-radius: var(--border-radius);
+      transition: background-color var(--transition-fast), color var(--transition-fast);
+      user-select: none;
+    }
+    header nav a.active,
+    header nav a:hover,
+    header nav a:focus {
+      background: var(--color-primary);
+      color: var(--color-bg);
+      outline-offset: 2px;
+      outline: 2px solid var(--color-primary);
+      user-select: none;
+    }
+    header nav a .material-icons {
+      font-size: 20px;
+      margin-right: 6px;
+      color: currentColor;
+    }
+    #hamburger-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--color-primary);
+      font-size: 28px;
+      cursor: pointer;
+      padding: 8px;
+      margin-right: auto;
+      user-select: none;
+      transition: color var(--transition-fast);
+    }
+    #hamburger-btn:hover, #hamburger-btn:focus {
+      color: var(--color-secondary);
+      outline-offset: 2px;
+      outline: 2px solid var(--color-secondary);
+    }
+    main {
+      flex: 1;
+      display: flex;
+      min-height: calc(100vh - var(--header-height));
+      max-width: 100vw;
+      overflow: hidden;
+      background: var(--color-bg);
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      background: var(--color-bg-blur);
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-glass);
+      padding: 32px 24px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: transform var(--transition-base);
+      z-index: 1100;
+      user-select: none;
+    }
+    #sidebar.hide {
+      transform: translateX(-100%);
+    }
+    #sidebar nav.sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    #sidebar nav.sidebar-nav button, #sidebar nav.sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--border-radius);
+      background: transparent;
+      border: none;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: background-color var(--transition-fast), color var(--transition-fast);
+      user-select: none;
+      text-align: left;
+      width: 100%;
+      font-size: 1rem;
+    }
+    #sidebar nav.sidebar-nav button:hover,
+    #sidebar nav.sidebar-nav a:hover,
+    #sidebar nav.sidebar-nav button:focus,
+    #sidebar nav.sidebar-nav a:focus,
+    #sidebar nav.sidebar-nav button.active,
+    #sidebar nav.sidebar-nav a.active {
+      background: var(--color-primary);
+      color: var(--color-bg);
+      outline-offset: 2px;
+      outline: 2px solid var(--color-primary);
+      user-select: none;
+    }
+    #sidebar nav.sidebar-nav .material-icons {
+      font-size: 24px;
+      flex-shrink: 0;
+      color: currentColor;
+    }
+    #sidebar nav.sidebar-nav .badge {
+      margin-left: auto;
+      background: var(--color-error);
+      color: var(--color-bg);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 12px;
+      min-width: 20px;
+      text-align: center;
+      line-height: 1;
+      user-select: none;
+    }
+    #content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 48px;
+      min-width: 0;
+      color: var(--color-text);
+      scroll-behavior: smooth;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+    footer {
+      padding: 24px 48px;
+      background: var(--color-bg-blur);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid rgba(66 133 244 / 0.15);
+      font-size: 0.875rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--color-text-muted);
+      gap: 16px;
+      user-select: none;
+    }
+    footer .social-icons {
+      display: flex;
+      gap: 20px;
+    }
+    footer .social-icons a {
+      color: var(--color-text-muted);
+      width: 28px;
+      height: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      background: transparent;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      text-decoration: none;
+    }
+    footer .social-icons a:hover,
+    footer .social-icons a:focus {
+      background: var(--color-primary);
+      color: var(--color-bg);
+      outline-offset: 2px;
+      outline: 2px solid var(--color-primary);
+      text-decoration: none;
+    }
+    footer .material-icons {
+      font-size: 24px;
+    }
+    .card {
+      background: var(--color-glass);
+      backdrop-filter: blur(20px);
+      border-radius: var(--border-radius);
+      padding: 24px;
+      box-shadow: var(--shadow-glass);
+      color: var(--color-text);
+      transition: box-shadow 0.3s ease;
+    }
+    .card:hover, .card:focus-within {
+      box-shadow: 0 20px 40px rgba(74, 222, 128, 0.5);
+      outline: none;
+    }
+    #praktikum-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 900px;
+    }
+    .praktikum-item {
+      background: var(--color-bg-blur);
+      padding: 16px 20px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-glass);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: box-shadow 0.3s ease;
+      user-select: none;
+    }
+    .praktikum-item:hover, .praktikum-item:focus-within {
+      box-shadow: 0 16px 36px rgba(34, 211, 238, 0.5);
+      outline: none;
+    }
+    .praktikum-item h4 {
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--color-primary);
+    }
+    .praktikum-item p {
+      color: var(--color-text-muted);
+      font-size: 1rem;
+      white-space: pre-wrap;
+    }
+    @media (max-width: 767px) {
+      #sidebar {
+        position: fixed;
+        top: var(--header-height);
+        bottom: 0;
+        left: 0;
+        transform: translateX(-100%);
+        transition: transform var(--transition-base);
+        width: 280px;
+        z-index: 1200;
+        padding-top: 24px;
+      }
+      #sidebar.show {
+        transform: translateX(0);
+      }
+      #hamburger-btn {
+        display: block;
+      }
+      header nav {
+        display: none;
+      }
+      #content {
+        padding: 24px 24px 48px 24px;
+      }
+      footer {
+        padding: 14px 24px;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+      }
+    }
+    @media (min-width: 768px) {
+      #sidebar {
+        position: relative;
+        transform: translateX(0);
+        height: auto;
+        max-height: none;
+      }
+      #hamburger-btn {
+        display: none;
+      }
+      header nav {
+        display: flex;
+      }
+      #content {
+        padding: 32px 48px;
+      }
+    }
+    @media (min-width: 1024px) {
+      #content {
+        padding: 48px 64px;
+        max-width: calc(100vw - var(--sidebar-width));
+      }
+      footer {
+        padding: 24px 64px;
+      }
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    .fade-in {
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    /* Contact info list */
+    .contact-info {
+      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      font-size: 1rem;
+      color: var(--color-text-muted);
+    }
+    .contact-info-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .contact-info-item .material-icons {
+      font-size: 24px;
+      color: var(--color-primary);
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" role="application">
+    <header role="banner" aria-label="Header and Navigation">
+      <button 
+        id="hamburger-btn" 
+        aria-label="Toggle navigation menu" 
+        aria-expanded="false" 
+        aria-controls="sidebar"
+        >
+        <span class="material-icons">menu</span>
+      </button>
+      <div class="logo" tabindex="0">Kevin Fajar Pratama</div>
+      <nav role="navigation" aria-label="Primary navigation">
+        <a href="#biodata" class="nav-link active" tabindex="0" data-section="biodata"><span class="material-icons">person</span>Biodata</a>
+        <a href="#contact" class="nav-link" tabindex="0" data-section="contact"><span class="material-icons">mail</span>Kontak</a>
+        <a href="#praktikum" class="nav-link" tabindex="0" data-section="praktikum"><span class="material-icons">list_alt</span>Hasil Praktikum</a>
+      </nav>
+    </header>
+
+    <main>
+      <aside id="sidebar" role="complementary" aria-label="Sidebar Navigation" tabindex="-1">
+        <nav class="sidebar-nav" aria-label="Sidebar navigation links">
+          <button type="button" class="nav-btn active" data-section="biodata" aria-current="page">
+            <span class="material-icons" aria-hidden="true">person</span>
+            Biodata
+          </button>
+          <button type="button" class="nav-btn" data-section="contact">
+            <span class="material-icons" aria-hidden="true">mail</span>
+            Kontak
+          </button>
+          <button type="button" class="nav-btn" data-section="praktikum">
+            <span class="material-icons" aria-hidden="true">list_alt</span>
+            Hasil Praktikum
+            <span class="badge" id="praktikum-notif" aria-label="Jumlah hasil praktikum baru" hidden>0</span>
+          </button>
+        </nav>
+      </aside>
+
+      <section id="content" role="main" tabindex="0" aria-live="polite" aria-atomic="true">
+        <!-- Biodata Section -->
+        <article id="biodata" tabindex="0" aria-label="Biodata Kevin Fajar Pratama" class="fade-in" hidden>
+          <h1>Biodata</h1>
+          <div style="display:flex; align-items:flex-start; gap:24px; flex-wrap:wrap;">
+            <div>
+              <h2>Kevin Fajar Pratama</h2>
+              <p><strong>Mahasiswa Sistem Informasi</strong></p>
+              <p>Universitas Dharma Persada</p>
+              <p>Lahir : 26 Desember 2004</p>
+              <p>Alamat : Jalan Waringin No.16, Jakarta Timur</p>
+              <p>Deskripsi : Seorang mahasiswa Sistem Informasi  di Universitas Dharma Persada yang tertarik di bidang teknologi dan mau berinovasi untuk menciptakan ide baru.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Contact Information -->
+        <article id="contact" tabindex="0" aria-label="Informasi Kontak Kevin Fajar Pratama" class="fade-in" hidden>
+          <h1>Kontak</h1>
+          <p>Berikut adalah informasi kontak saya.</p>
+          <div class="contact-info">
+            <div class="contact-info-item" tabindex="0">
+              <span class="material-icons" aria-hidden="true">phone</span>
+              <span>+62 895 3643 13840</span>
+            </div>
+            <div class="contact-info-item" tabindex="0">
+              <span class="material-icons" aria-hidden="true">email</span>
+              <span>kevinfajarpratama@gmail.com</span>
+            </div>
+            <div class="contact-info-item" tabindex="0">
+              <span class="material-icons" aria-hidden="true">location_on</span>
+              <span>Jakarta, Indonesia</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Praktikum Results Section (View only) -->
+        <article id="praktikum" tabindex="0" aria-label="Hasil Praktikum Kevin Fajar Pratama" class="fade-in" hidden>
+          <h1>Hasil Praktikum</h1>
+          <p>Berikut adalah daftar hasil tugas praktikum yang telah diselesaikan.</p>
+          <div id="praktikum-list" tabindex="0" aria-label="Daftar hasil praktikum"></div>
+        </article>
+      </section>
+    </main>
+
+    <footer role="contentinfo">
+      <span>© 2024 Kevin Fajar Pratama. All rights reserved.</span>
+      <div class="social-icons" role="navigation" aria-label="Social media links">
+        <a href="https://www.linkedin.com/in/kevinfajarpratama" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><span class="material-icons" aria-hidden="true">linkedin</span></a>
+        <a href="https://github.com/kevinfajarpratama" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><span class="material-icons" aria-hidden="true">code</span></a>
+        <a href="mailto:kevin.fajar@email.com" aria-label="Email Kevin Fajar Pratama"><span class="material-icons" aria-hidden="true">email</span></a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (() => {
+      const sidebar = document.getElementById('sidebar');
+      const hamburgerBtn = document.getElementById('hamburger-btn');
+      const navLinksHeader = document.querySelectorAll('header nav a.nav-link');
+      const navBtnsSidebar = document.querySelectorAll('#sidebar nav.sidebar-nav button.nav-btn');
+      const sections = document.querySelectorAll('section#content article');
+      const praktikumList = document.getElementById('praktikum-list');
+      const praktikumNotifBadge = document.getElementById('praktikum-notif');
+
+      let isSidebarVisible = false;
+
+      function toggleSidebar(show) {
+        if (show === undefined) {
+          show = !isSidebarVisible;
+        }
+        isSidebarVisible = show;
+        if (show) {
+          sidebar.classList.add('show');
+          hamburgerBtn.setAttribute('aria-expanded', 'true');
+          sidebar.focus();
+          document.body.style.overflow = 'hidden';
+        } else {
+          sidebar.classList.remove('show');
+          hamburgerBtn.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
+      }
+
+      hamburgerBtn.addEventListener('click', () => {
+        toggleSidebar();
+      });
+
+      document.addEventListener('click', (e) => {
+        if (isSidebarVisible && !sidebar.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+          toggleSidebar(false);
+        }
+      });
+
+      function showSection(sectionName) {
+        sections.forEach(sec => {
+          if (sec.id === sectionName) {
+            sec.hidden = false;
+            sec.classList.add('fade-in');
+            sec.focus();
+          } else {
+            sec.hidden = true;
+            sec.classList.remove('fade-in');
+          }
+        });
+        navLinksHeader.forEach(a => {
+          a.classList.toggle('active', a.dataset.section === sectionName);
+        });
+        navBtnsSidebar.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.section === sectionName);
+          if (btn.dataset.section === 'praktikum') {
+            updateNotificationBadge();
+          }
+        });
+        if (window.innerWidth <= 767) {
+          toggleSidebar(false);
+        }
+      }
+
+      navLinksHeader.forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const section = e.currentTarget.dataset.section;
+          showSection(section);
+          history.pushState({ section }, '', `#${section}`);
+        });
+      });
+
+      navBtnsSidebar.forEach(btn => {
+        btn.addEventListener('click', e => {
+          const section = e.currentTarget.dataset.section;
+          showSection(section);
+        });
+      });
+
+      navLinksHeader.forEach(link => {
+        link.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            link.click();
+          }
+        });
+      });
+      navBtnsSidebar.forEach(btn => {
+        btn.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            btn.click();
+          }
+        });
+      });
+
+      // Data for Praktikum results (load from localStorage or dummy data)
+      let praktikumData = [];
+
+      function loadPraktikum() {
+        const stored = localStorage.getItem('praktikumData');
+        if (stored) {
+          try {
+            praktikumData = JSON.parse(stored);
+          } catch {
+            praktikumData = [];
+          }
+        } else {
+          praktikumData = [
+            { id: '1', title: 'Tugas Praktikum 1', content: 'Pemrograman Dasar dengan JavaScript.' },
+            { id: '2', title: 'Tugas Praktikum 2', content: 'Pengembangan web responsif menggunakan CSS Flexbox dan Grid.' },
+            { id: '3', title: 'Tugas Praktikum 3', content: 'Membuat aplikasi CRUD sederhana dengan React.' }
+          ];
+          localStorage.setItem('praktikumData', JSON.stringify(praktikumData));
+        }
+      }
+
+      function renderPraktikum() {
+        praktikumList.innerHTML = '';
+        if (praktikumData.length === 0) {
+          praktikumList.innerHTML = '<p>Tidak ada hasil praktikum.</p>';
+          praktikumNotifBadge.hidden = true;
+          return;
+        }
+        praktikumData.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'praktikum-item';
+          div.tabIndex = 0;
+          div.setAttribute('aria-label', `Praktikum judul ${item.title}`);
+          const h4 = document.createElement('h4');
+          h4.textContent = item.title;
+          const p = document.createElement('p');
+          p.textContent = item.content;
+          div.appendChild(h4);
+          div.appendChild(p);
+          praktikumList.appendChild(div);
+        });
+        updateNotificationBadge();
+      }
+
+      function updateNotificationBadge() {
+        if (praktikumData.length > 0) {
+          praktikumNotifBadge.textContent = praktikumData.length.toString();
+          praktikumNotifBadge.hidden = false;
+          praktikumNotifBadge.setAttribute('aria-hidden', 'false');
+        } else {
+          praktikumNotifBadge.hidden = true;
+          praktikumNotifBadge.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      function init() {
+        loadPraktikum();
+        renderPraktikum();
+        updateNotificationBadge();
+        let initialSection = window.location.hash.replace('#', '') || 'biodata';
+        if (!['biodata', 'contact', 'praktikum'].includes(initialSection)) initialSection = 'biodata';
+        showSection(initialSection);
+      }
+
+      window.addEventListener('popstate', e => {
+        if(e.state && e.state.section) {
+          showSection(e.state.section);
+        }
+      });
+
+      sidebar.addEventListener('keydown', e => {
+        if (!isSidebarVisible) return;
+        if (e.key === 'Tab') {
+          const focusableElements = sidebar.querySelectorAll('button.nav-btn');
+          const first = focusableElements[0];
+          const last = focusableElements[focusableElements.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            }
+          } else {
+            if (document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        }
+        if(e.key === 'Escape') {
+          toggleSidebar(false);
+          hamburgerBtn.focus();
+        }
+      });
+
+      init();
+    })();
+  </script>
+</body>
+</html>
+
